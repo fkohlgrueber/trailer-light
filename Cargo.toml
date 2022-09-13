@@ -1,0 +1,11 @@
+[package]
+name = "trailer-light"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+esp32c3-hal = { git = "https://github.com/esp-rs/esp-hal.git", rev = "da3ec47b30a5f598e904ffac0e10f94716cb4023", features = ["smartled"] }
+# esp32c3-hal = { path = "../esp-hal-2/esp32c3-hal", features = ["smartled"] }
+panic-halt = "0.2.0"
+riscv-rt = "0.9.0"
+smart-leds = "0.3.0"
