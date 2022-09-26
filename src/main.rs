@@ -36,6 +36,7 @@ const VAL_3: f32 = 60.0;
 const HIGHLIGHT_1: f32 = 30.0;
 const HIGHLIGHT_2: f32 = 60.0;
 const HIGHLIGHT_3: f32 = 150.0;
+const HIGHLIGHT_4: f32 = 255.0;
 
 struct AnimationContext {
     current_pos: f32,
@@ -185,10 +186,22 @@ where
             while ctx.next(&mut v) {
                 for i in 0..NUM_LEDS / 2 {
                     self.data[i + NUM_LEDS / 2] = Color::new(v[i], 0, 0);
-                    self.data[NUM_LEDS / 2 - i] = Color::new(v[i], 0, 0);
+                    self.data[NUM_LEDS / 2 - i - 1] = Color::new(v[i], 0, 0);
                 }
                 self.write_leds();
             }
+        }
+    }
+
+    pub fn wave_animation(&mut self) {
+        let mut ctx = AnimationContext::new(X_START, X_END, STEP_WIDTH/3.0, VAL_3, VAL_3, HIGHLIGHT_4, HB*2.0);
+        let mut v = [0; NUM_LEDS / 2];
+        while ctx.next(&mut v) {
+            for i in 0..NUM_LEDS / 2 {
+                self.data[i + NUM_LEDS / 2] = Color::new(v[i], 0, 0);
+                self.data[NUM_LEDS / 2 - i - 1] = Color::new(v[i], 0, 0);
+            }
+            self.write_leds();
         }
     }
 
@@ -269,5 +282,9 @@ fn main() -> ! {
     // tl.emergency_brake();
     // tl.color(Color::new(VAL_3 as u8, 0, 0));
 
-    loop {}
+    tl.delay_ms(5000);
+
+    loop {
+        tl.wave_animation();
+    }
 }
